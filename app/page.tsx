@@ -85,8 +85,8 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen bg-black text-white font-sans overflow-hidden">
-      {/* 🔊 Player de Áudio */}
-      <AudioPlayer />
+  {/* 🔊 Player de Áudio */}
+  <AudioPlayer />
 
       {/* 🌌 Fundo dinâmico */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-800"></div>
@@ -162,20 +162,23 @@ export default function Home() {
           </motion.div>
         ))}
       </div>
+{/* 🔥 FRASE GIGANTE QUE APARECE POR 2 SEGUNDOS - 100% RESPONSIVO 📱 */}
+{bigMessage && (
+  <div className="absolute inset-0 flex items-center justify-center z-50 p-4">
+    <motion.div
+      initial={{ scale: 0 }}
+      animate={{ scale: [1, 1.5, 1] }}
+      transition={{ duration: 0.5 }}
+      className="text-white font-extrabold text-center bg-red-600 rounded-lg shadow-[0_0_40px_rgba(255,0,0,1)] 
+                 w-full max-w-[90%] sm:max-w-[80%] md:max-w-[60%] lg:max-w-[50%] 
+                 text-3xl sm:text-4xl md:text-5xl lg:text-6xl 
+                 p-4 sm:p-6 md:p-8 lg:p-10"
+    >
+      COMPRE TWISTÃO 2008 IMEDIATAMENTE
+    </motion.div>
+  </div>
+)}
 
-      {/* 🔥 FRASE GIGANTE QUE APARECE POR 2 SEGUNDOS */}
-      {bigMessage && (
-        <div className="absolute inset-0 flex items-center justify-center z-50">
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: [1, 1.5, 1] }}
-            transition={{ duration: 0.5 }}
-            className="text-white text-6xl font-extrabold text-center bg-red-600 p-10 rounded-lg shadow-[0_0_40px_rgba(255,0,0,1)]"
-          >
-            COMPRE TWISTÃO 2008 IMEDIATAMENTE
-          </motion.div>
-        </div>
-      )}
 
       {/* 🚀 Moto Principal com MOVIMENTO INSANO */}
       <main className="container mx-auto px-4 relative z-10">
