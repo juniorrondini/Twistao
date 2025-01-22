@@ -7,12 +7,25 @@ import { useState, useEffect } from "react";
 import AudioPlayer from "@/components/ui/AudioPlayer";
 
 const twisterImage = "https://i.ibb.co/zhXjD4G/0002-removebg-preview.png";
+const phrases = [
+  "COMPRE TWISTÃO 2008",
+  "IMEDIATAMENTE",
+  "COMPRE AGORAAAAA",
+  "AAAAAAAAAAAAAAA",
+  "VELOCIDADE MÁXIMA",
+  "O MELHOR NEGÓCIO DO MUNDO",
+  "NÃO PERCA ESSA OPORTUNIDADE",
+  "ACELERA, IRMÃO!!!",
+];
 
 export default function Home() {
   const [twisters, setTwisters] = useState([]);
-  const [isHovered, setIsHovered] = useState(false);
+  const [flashingTwisters, setFlashingTwisters] = useState([]);
+  const [flashingPhrases, setFlashingPhrases] = useState([]);
+  const [bigMessage, setBigMessage] = useState(false);
 
   useEffect(() => {
+    // Criar chuva de Twisters
     const createTwisterRain = () => {
       setTwisters(
         Array.from({ length: 30 }).map(() => ({
@@ -27,6 +40,47 @@ export default function Home() {
     };
 
     createTwisterRain();
+
+    // Criar Twisters piscando aleatoriamente
+    const createFlashingTwisters = () => {
+      setInterval(() => {
+        setFlashingTwisters(
+          Array.from({ length: 5 }).map(() => ({
+            id: Math.random(),
+            x: Math.random() * 100,
+            y: Math.random() * 100,
+            size: Math.random() * 100 + 50,
+          }))
+        );
+      }, 300);
+    };
+
+    createFlashingTwisters();
+
+    // Criar frases piscando rapidamente com cores aleatórias
+    const createFlashingPhrases = () => {
+      setInterval(() => {
+        setFlashingPhrases(
+          Array.from({ length: 5 }).map(() => ({
+            id: Math.random(),
+            text: phrases[Math.floor(Math.random() * phrases.length)],
+            x: Math.random() * 80,
+            y: Math.random() * 80,
+            color: `hsl(${Math.random() * 360}, 100%, 50%)`, // 🎨 Cor aleatória!
+          }))
+        );
+      }, 200);
+    };
+
+    createFlashingPhrases();
+
+    // Mostrar mensagem GIGANTE aleatoriamente
+    setInterval(() => {
+      setBigMessage(true);
+      setTimeout(() => {
+        setBigMessage(false);
+      }, 2000);
+    }, 7000); // A cada 7 segundos, aparece por 2 segundos!
   }, []);
 
   return (
@@ -61,85 +115,89 @@ export default function Home() {
         ))}
       </div>
 
-      {/* 🚀 Título High-Tech */}
-      <header className="p-5 text-center relative z-10">
-        <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 neon-flicker">
-          Honda Twister 2008 - HIPERSONIC MODE!
-        </h1>
-      </header>
+      {/* ⚡ TWISTERS PISCANDO ALEATORIAMENTE */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {flashingTwisters.map((twister) => (
+          <motion.div
+            key={twister.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0, 1, 0] }}
+            transition={{
+              duration: 0.2,
+              repeat: Infinity,
+            }}
+            style={{
+              position: "absolute",
+              left: `${twister.x}%`,
+              top: `${twister.y}%`,
+              width: `${twister.size}px`,
+            }}
+          >
+            <Image src={twisterImage} alt="Twister Piscando" width={twister.size} height={twister.size} />
+          </motion.div>
+        ))}
+      </div>
 
+      {/* 🚀 FRASES PISCANDO RAPIDAMENTE */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {flashingPhrases.map((phrase) => (
+          <motion.div
+            key={phrase.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0, 1, 0] }}
+            transition={{
+              duration: 0.1,
+              repeat: Infinity,
+            }}
+            style={{
+              position: "absolute",
+              left: `${phrase.x}%`,
+              top: `${phrase.y}%`,
+              fontSize: "2rem",
+              fontWeight: "bold",
+              color: phrase.color,
+              textShadow: `0 0 20px ${phrase.color}`,
+            }}
+          >
+            {phrase.text}
+          </motion.div>
+        ))}
+      </div>
+
+      {/* 🔥 FRASE GIGANTE QUE APARECE POR 2 SEGUNDOS */}
+      {bigMessage && (
+        <div className="absolute inset-0 flex items-center justify-center z-50">
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: [1, 1.5, 1] }}
+            transition={{ duration: 0.5 }}
+            className="text-white text-6xl font-extrabold text-center bg-red-600 p-10 rounded-lg shadow-[0_0_40px_rgba(255,0,0,1)]"
+          >
+            COMPRE TWISTÃO 2008 IMEDIATAMENTE
+          </motion.div>
+        </div>
+      )}
+
+      {/* 🚀 Moto Principal com MOVIMENTO INSANO */}
       <main className="container mx-auto px-4 relative z-10">
-        {/* 🚀 Moto Principal sem borda + MOVIMENTO ABSURDO */}
         <section className="relative flex justify-center items-center py-20">
           <Tilt tiltMaxAngleX={50} tiltMaxAngleY={50} scale={1.3}>
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               animate={{
                 opacity: 1,
-                y: [0, -30, 30, -40, 40, -20, 20, 0], // 🔥 MOVIMENTO INSANO
-                rotate: [0, 10, -10, 20, -20, 5, -5, 0], // 🚀 EFEITO DE TURBO
-                scale: [1, 1.1, 1], // 🔥 EXPANSÃO
-                transition: { repeat: Infinity, duration: 0.5, ease: "easeInOut" },
+                y: [0, -50, 50, -70, 70, -30, 30, 0], // 🔥 MOVIMENTO HIPERATIVO
+                rotate: [0, 20, -20, 40, -40, 10, -10, 0], // 🚀 GIRANDO SEM PARAR
+                scale: [1, 1.2, 1], // 🔥 EXPANSÃO INSANA
+                transition: { repeat: Infinity, duration: 0.3, ease: "easeInOut" },
               }}
-              onHoverStart={() => setIsHovered(true)}
-              onHoverEnd={() => setIsHovered(false)}
-              className="relative w-full max-w-4xl h-[500px] rounded-lg overflow-hidden shadow-[0_0_80px_rgba(0,255,255,1)]"
+              className="relative w-full max-w-4xl h-[500px] rounded-lg overflow-hidden"
             >
-              {/* 🔥 Moto principal */}
-              <div className="relative w-full h-full">
-                <Image
-                  src={twisterImage}
-                  alt="Honda Twister 2008"
-                  width={1000}
-                  height={600}
-                  priority
-                  className="transition-transform duration-200 ease-in-out object-contain"
-                />
-              </div>
-              <motion.h2
-                className="absolute bottom-10 left-10 text-5xl font-bold text-cyan-300 animate-glow"
-                initial={{ x: -50, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-              >
-                O Futuro em Duas Rodas
-              </motion.h2>
+              <Image src={twisterImage} alt="Honda Twister 2008" width={1000} height={600} priority />
             </motion.div>
           </Tilt>
         </section>
       </main>
-
-      {/* 🚀 Rodapé */}
-      <footer className="text-center py-5 bg-black/40">
-        <p className="text-gray-400">&copy; 2025 Honda Twister. Todos os direitos reservados.</p>
-      </footer>
-
-      {/* 🔥 ESTILOS EXTRAS */}
-      <style jsx>{`
-        @keyframes rgb-border {
-          0% { border-color: #ff0000; }
-          25% { border-color: #00ff00; }
-          50% { border-color: #0000ff; }
-          75% { border-color: #ff00ff; }
-          100% { border-color: #ff0000; }
-        }
-
-        @keyframes shake {
-          0% { transform: translate(0px, 0px); }
-          25% { transform: translate(2px, -2px); }
-          50% { transform: translate(-2px, 2px); }
-          75% { transform: translate(2px, -2px); }
-          100% { transform: translate(0px, 0px); }
-        }
-
-        .animate-rgb {
-          animation: rgb-border 1s infinite linear;
-        }
-
-        .animate-shake {
-          animation: shake 0.1s infinite linear;
-        }
-      `}</style>
     </div>
   );
 }
