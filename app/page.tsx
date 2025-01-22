@@ -91,6 +91,28 @@ export default function Home() {
       {/* 🌌 Fundo dinâmico */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-800"></div>
 
+      {/* 🏍️ TWISTER ULTRA RÁPIDA ANDANDO POR TODA A TELA */}
+      <motion.div
+        className="absolute z-50"
+        initial={{
+          x: "-10vw",
+          y: "50vh",
+          scale: 1,
+        }}
+        animate={{
+          x: ["-10vw", "110vw", "-10vw"],
+          y: ["10vh", "80vh", "30vh", "90vh", "20vh"], // Movimento vertical insano!
+          scale: [0.5, 1, 0.8, 1.2, 0.5], // Mudança de tamanho aleatória!
+        }}
+        transition={{
+          duration: 3, // Tempo total da animação
+          repeat: Infinity,
+          ease: "linear",
+        }}
+      >
+        <Image src={twisterImage} alt="Twister Correndo" width={200} height={100} />
+      </motion.div>
+
       {/* 🌟 CHUVA DE TWISTER */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {twisters.map((twister) => (
@@ -111,29 +133,6 @@ export default function Home() {
             }}
           >
             <Image src={twisterImage} alt="Twister Chuva" width={twister.size} height={twister.size} />
-          </motion.div>
-        ))}
-      </div>
-
-      {/* ⚡ TWISTERS PISCANDO ALEATORIAMENTE */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {flashingTwisters.map((twister) => (
-          <motion.div
-            key={twister.id}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 1, 0] }}
-            transition={{
-              duration: 0.2,
-              repeat: Infinity,
-            }}
-            style={{
-              position: "absolute",
-              left: `${twister.x}%`,
-              top: `${twister.y}%`,
-              width: `${twister.size}px`,
-            }}
-          >
-            <Image src={twisterImage} alt="Twister Piscando" width={twister.size} height={twister.size} />
           </motion.div>
         ))}
       </div>
