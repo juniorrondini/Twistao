@@ -26,7 +26,7 @@ export default function Home() {
               onHoverEnd={() => setIsHovered(false)}
             >
               <Image
-                src="/twister-2008.jpg"
+                src="https://i.ibb.co/zhXjD4G/0002-removebg-preview.png"
                 alt="Honda Twister 2008"
                 layout="fill"
                 objectFit="cover"
