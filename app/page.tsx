@@ -112,6 +112,8 @@ export default function Home() {
       >
         <Image src={twisterImage} alt="Twister Correndo" width={200} height={100} />
       </motion.div>
+      <head><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8997726626133132"
+     crossOrigin="anonymous"></script></head>
 
       {/* 🌟 CHUVA DE TWISTER */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
